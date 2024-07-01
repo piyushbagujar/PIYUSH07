@@ -1,40 +1,36 @@
 function locomotiveAnimation() {
   gsap.registerPlugin(ScrollTrigger);
 
-  // Using Locomotive Scroll from Locomotive https://github.com/locomotivemtl/locomotive-scroll
-
   const locoScroll = new LocomotiveScroll({
-    el: document.querySelector("#main"),
-    smooth: true,
+      el: document.querySelector("#main"),
+      smooth: true,
+
+      // for tablet smooth
+      tablet: { smooth: true },
+
+      // for mobile
+      smartphone: { smooth: true }
   });
-  // each time Locomotive Scroll updates, tell ScrollTrigger to update too (sync positioning)
   locoScroll.on("scroll", ScrollTrigger.update);
 
-  // tell ScrollTrigger to use these proxy methods for the "#main" element since Locomotive Scroll is hijacking things
   ScrollTrigger.scrollerProxy("#main", {
-    scrollTop(value) {
-      return arguments.length
-        ? locoScroll.scrollTo(value, 0, 0)
-        : locoScroll.scroll.instance.scroll.y;
-    }, // we don't have to define a scrollLeft because we're only scrolling vertically.
-    getBoundingClientRect() {
-      return {
-        top: 0,
-        left: 0,
-        width: window.innerWidth,
-        height: window.innerHeight,
-      };
-    },
-    // LocomotiveScroll handles things completely differently on mobile devices - it doesn't even transform the container at all! So to get the correct behavior and avoid jitters, we should pin things with position: fixed on mobile. We sense it by checking to see if there's a transform applied to the container (the LocomotiveScroll-controlled element).
-    pinType: document.querySelector("#main").style.transform
-      ? "transform"
-      : "fixed",
+      scrollTop(value) {
+          return arguments.length
+              ? locoScroll.scrollTo(value, 0, 0)
+              : locoScroll.scroll.instance.scroll.y;
+      },
+      getBoundingClientRect() {
+          return {
+              top: 0,
+              left: 0,
+              width: window.innerWidth,
+              height: window.innerHeight
+          };
+      }
   });
 
-  // each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll.
   ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
 
-  // after everything is set up, refresh() ScrollTrigger and update LocomotiveScroll because padding may have been added for pinning, etc.
   ScrollTrigger.refresh();
 }
   function loadingAnimation() {
@@ -107,19 +103,86 @@ function locomotiveAnimation() {
     });
 
 }
-gsap.from("#text1 h1", {
-  x: -500,
-  opacity: 0,
-  delay: 0.5,
-  duration: 0.6,
-  stagger: 0.2,
-  scrollTrigger: {
-    trigger: "#text1 h1",
-    scroller: "body",
-    markers: true,
-    start: "top 50%",
-  },
-});
+locomotiveAnimation();
 loadingAnimation();
 cursorAnimation();
-locomotiveAnimation();
+// gsap.from(".underline", {
+//   x: -500,
+//   opacity: 0,
+//   duration: 0.7,
+//   scrollTrigger: {
+//     trigger: "#text1",
+//     scroller: "#main",
+//     start: "top 60%",
+//     end:"top 40%",
+//   },
+// });
+function page2(){
+  var tl2 = gsap.timeline({scrollTrigger:{
+    trigger: "#page2",
+    start:"0% 70%",
+    scroller: "#main",
+    end:"30% 50%",
+    scrub:true,
+    markers:true,
+  }})
+  
+  tl2.to(".rounded-div-wrapper",{
+    height:0,
+    marginTop: 0
+  })
+  let t = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#page2",
+      scroller: "#main",
+      // markers: true,
+      start: "0% 50%",
+      end:"20% 50%",
+      
+    },
+  });
+  
+  t.from(".underline",{
+    width: "40%",
+    opacity: 0,
+  })
+  t.from("#images img",{
+    x:100,
+    opacity:0,
+    stagger:0.5,
+    duration:0.5,
+    
+  })
+  
+  
+}
+page2();
+let tl7 = gsap.timeline({
+  scrollTrigger:{
+      trigger: "#page3",
+      scroller:"#main",
+      start:"50% 50%",
+      end: "300% 50%",
+      pin:true,
+      markers: true,
+      scrub: 0.00000000001,
+  },  
+});
+tl7.to("#btn",{
+  bottom:"7%",
+})
+tl7.to(".my-work-txt-div",{
+  height:"60vh",
+}, 'height')
+tl7.to(".my-work-txt",{
+  height:"60vh",
+}, 'height')
+tl7.to("#my",{
+  left:"0%",
+}, 'height')
+tl7.to("#work",{
+  right:"0%",
+}, 'height')
+tl7.to(".scroll-img",{
+  marginTop:"-300%",
+})
