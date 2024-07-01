@@ -124,7 +124,7 @@ function page2(){
     scroller: "#main",
     end:"30% 50%",
     scrub:true,
-    markers:true,
+    // markers:true,
   }})
   
   tl2.to(".rounded-div-wrapper",{
@@ -164,7 +164,7 @@ let tl7 = gsap.timeline({
       start:"50% 50%",
       end: "300% 50%",
       pin:true,
-      markers: true,
+      // markers: true,
       scrub: 0.00000000001,
   },  
 });
